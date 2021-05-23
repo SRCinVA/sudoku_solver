@@ -10,6 +10,20 @@ def find_next_empty(puzzle):
     #"else"
     return None, None # which would mean that you're finished.
 
+def is_valid(puzzle, guess, row, col):
+    # if valid, returns True; if not, returns False
+    # remember sudoki rules: only one occurence of each number.
+    # let's start with rows, because they're easy:
+    row_vals = puzzle[row]
+    if guess in row_vals:  # if already present ...
+        return False       # ... then it's not valid
+    # columns are harder, because they're indexes in given rows
+    col_vals = [] # create an empty list
+    # for i in range:
+        # col_vals.append(puzzle[i][col]) # just need to note the row, col as a tuple (?)
+    col_vals = [puzzle[i][col] for i in range(9)] # take puzzle, index into i, then index into col, and do that for i in range (9) 
+    if guess in col_vals:
+        return False
 
 def solve_sudoku(puzzle):
     # the "puzzle" is a list of lists that we'll solve using backtracking
@@ -23,5 +37,6 @@ def solve_sudoku(puzzle):
         return True # this means that we have solved the puzzle.
     # if we are not finished, then we need to continue to provide guesses (between 1 and 9)
     for guess in range(1,10):
-        # now we check the validity
+        # now we check the validity of the guess
         if is_valid(puzzle, guess, row, col):
+
