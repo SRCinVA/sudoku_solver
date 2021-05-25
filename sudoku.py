@@ -27,9 +27,19 @@ def is_valid(puzzle, guess, row, col):
         # if the guess is in those values, then we return False, because the number has been used.
         return False
 
-    # so far, we've just been figuring out what has been used. Now we need where they are located in the 3*3 grid. (it's 9 * 9 spaces for the whole board)
-    row_start = (row // 3)  # remember this: division and then dispose of remainder to tell you which row
-                            # the given index is on
+    # so far, we've just been figuring out what has been used. Now we need where they are located in the 9 * 9 grid
+    row_start = (row // 3) * 3  # divide the row index and then dispose of remainder to tell you which row of 3*3 boxes (rows 1, 2, or 3) we're in.
+                                # When we multiply that answer by 3, that gives the index (that we originally had, of course)
+    # employ the same logic for columns
+    col_start = (col // 3) * 3  # we're trying to get these 3 * 3 "chunks"
+
+    # now we have to interate through each set of three throws:
+    for r in range(row_start, row_start + 3):   # so that you hit indexes 0, 1, and 2
+        for c in range(col_start, col_start + 3):
+            if puzzle[r][c] == guess:
+
+
+
 
 def solve_sudoku(puzzle):
     # the "puzzle" is a list of lists that we'll solve using backtracking
