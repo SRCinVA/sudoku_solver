@@ -27,18 +27,22 @@ def is_valid(puzzle, guess, row, col):
         # if the guess is in those values, then we return False, because the number has been used.
         return False
 
-    # so far, we've just been figuring out what has been used. Now we need where they are located in the 9 * 9 grid
+    # so far, we've just been figuring out what has been used. Now we need to know where they are located in the 9 * 9 grid
+    # we need to find which index the row of the 3*3 matrix starts at. 
+    # ***logic of this: the 3*3 chunks are another dimension of indices and could only be 0, 1, or 2.***
+    # do the same for the columns as well
     row_start = (row // 3) * 3  # divide the row index and then dispose of remainder to tell you which row of 3*3 boxes (rows 1, 2, or 3) we're in.
                                 # When we multiply that answer by 3, that gives the index (that we originally had, of course)
     # employ the same logic for columns
     col_start = (col // 3) * 3  # we're trying to get these 3 * 3 "chunks"
 
     # now we have to interate through each set of three throws:
-    for r in range(row_start, row_start + 3):   # so that you hit indexes 0, 1, and 2
+    for r in range(row_start, row_start + 3):   # so that you hit all possible chunks.
         for c in range(col_start, col_start + 3):
-            if puzzle[r][c] == guess:
-
-
+            if puzzle[r][c] == guess: # have no recolleciton at all of doing this code ... ?!?!
+                return False
+    # if we pass all of these checks, then the squares are in fact valid, so we could return True
+    return True
 
 
 def solve_sudoku(puzzle):
@@ -49,10 +53,15 @@ def solve_sudoku(puzzle):
 
     row, col = find_next_empty(puzzle)
     # now perform a validation check
-    if row is None: # I believe if could just as easily have been column
+    if row is None: # Possbily just as easily have been column (and just one has to be None)
         return True # this means that we have solved the puzzle.
-    # if we are not finished, then we need to continue to provide guesses (between 1 and 9)
+    
+    #  if we are not finished, then we need to continue to guess (between 1 and 9) until we find one that works.
     for guess in range(1,10):
         # now we check the validity of the guess
-        if is_valid(puzzle, guess, row, col):
+        if is_valid(puzzle, guess, row, col): # ... is in fact True, then ...
+            # we want to place this value on the puzzle at that row and column
 
+            puzzle[r][c] = guess
+            # What the ... this means that we're "mutating" this puzzle array.
+            # now we recursively call this function (presumably to keep mutating things until we get it right.)
