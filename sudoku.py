@@ -41,7 +41,7 @@ def is_valid(puzzle, guess, row, col):
         for c in range(col_start, col_start + 3):
             if puzzle[r][c] == guess: # have no recolleciton at all of doing this code ... ?!?!
                 return False
-    # if we pass all of these checks, then the squares are in fact valid, so we could return True
+    # if we pass all of these checks, then the squares are in fact valid, so we could return True:
     return True
 
 
@@ -60,8 +60,19 @@ def solve_sudoku(puzzle):
     for guess in range(1,10):
         # now we check the validity of the guess
         if is_valid(puzzle, guess, row, col): # ... is in fact True, then ...
-            # we want to place this value on the puzzle at that row and column
+            # we want to place this guess on the puzzle at that row and column
 
             puzzle[r][c] = guess
             # What the ... this means that we're "mutating" this puzzle array.
             # now we recursively call this function (presumably to keep mutating things until we get it right.)
+            # eventually, we'll solve this puzzle with recursive calls
+            # if def solve_sudoku is True, then we return True at the end.
+            if solve_sudoku(puzzle):
+                return True
+            # or, it might not have worked (it might not be valid, or it might need to be backtracked and corrected)
+            # in that case:
+            puzzle[r][c] = -1  # ... because we didn't place anything there.
+            # we're resetting value at that row and column.
+            # ultimately, we'll be trying every possible combination for this puzzle.
+
+            # if none of the combinations work, then this puzzle is unsolvable.
