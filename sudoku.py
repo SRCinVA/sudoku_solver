@@ -1,3 +1,5 @@
+from pprint import pprint
+
 def find_next_empty(puzzle):
     # negative spaces are being represented with -1
     # will return based on column and row indices
@@ -6,7 +8,7 @@ def find_next_empty(puzzle):
     for r in range(9):
         for c in range(9):
             if puzzle[r][c] == -1:
-                return r,c  # because you want to fill it
+                return r, c  # because you want to fill it
     #"else"
     return None, None # which would mean that you're finished.
 
@@ -19,7 +21,7 @@ def is_valid(puzzle, guess, row, col):
         return False       # ... then it's not valid
     
     # columns are harder, because they're indexes in given rows
-    col_vals = [] # create an empty list
+    #col_vals = []  create an empty list
     # for i in range:
         # col_vals.append(puzzle[i][col]) # just need to note the row, col as a tuple (?)
     col_vals = [puzzle[i][col] for i in range(9)] # take puzzle, index into i, then index into col, and do that for i in range (9) 
@@ -62,7 +64,7 @@ def solve_sudoku(puzzle):
         if is_valid(puzzle, guess, row, col): # ... is in fact True, then ...
             # we want to place this guess on the puzzle at that row and column
 
-            puzzle[r][c] = guess
+            puzzle[row][col] = guess
             # What the ... this means that we're "mutating" this puzzle array.
             # now we recursively call this function (presumably to keep mutating things until we get it right.)
             # eventually, we'll solve this puzzle with recursive calls
@@ -71,26 +73,26 @@ def solve_sudoku(puzzle):
                 return True
             # or, it might not have worked (it might not be valid, or it might need to be backtracked and corrected)
             # in that case:
-            puzzle[r][c] = -1  # ... because we didn't place anything there.
+        puzzle[row][col] = -1  # ... because we didn't place anything there.
             # we're resetting value at that row and column.
             # ultimately, we'll be trying every possible combination for this puzzle.
 
             # if none of the combinations work, then this puzzle is unsolvable.
-            return False
+    return False
 
-        if __name__ == '__main__':
-            example_board = [
-                [ 3, 9,-1     -1, 5, -1,   -1, -1, -1],
-                [-1,-1,-1,     2, -1, -1,  -1, -1, 5],
-                [-1,-1,-1,     2, -1, -1,   -1, 8, -1],
+if __name__ == '__main__':
+    example_board = [
+        [ 3, 9,-1,     -1, 5, -1,   -1, -1, -1],
+        [-1,-1,-1,     2, -1, -1,  -1, -1, 5],
+        [-1,-1,-1,     2, -1, -1,   -1, 8, -1],
 
-                [-1, 5,-1,    -1, 6, 8,     -1, -1,-1],
-                [ 2,-1, 6,    -1, -1, 3,    -1, -1,-1],
-                [-1,-1,-1,    -1,-1,-1,     -1, -1, 4],
+        [-1, 5,-1,    -1, 6, 8,     -1, -1,-1],
+        [ 2,-1, 6,    -1, -1, 3,    -1, -1,-1],
+        [-1,-1,-1,    -1,-1,-1,     -1, -1, 4],
 
-                [5, -1, -1,   -1, -1, -1    -1, -1, -1],
-                [5, -1, -1,   -1, -1, -1,    -1, -1,-1],
-                [1, -1,  9,   -1, -1, -1,    2, -1, -1]
-            ]
-            print(solve_sudoku(example_board))
-            print(example_board)
+        [5, -1, -1,   -1, -1, -1,    -1, -1, -1],
+        [5, -1, -1,   -1, -1, -1,    -1, -1,-1],
+        [1, -1,  9,   -1, -1, -1,    2, -1, -1]
+    ]
+    print(solve_sudoku(example_board))
+    pprint(example_board)
